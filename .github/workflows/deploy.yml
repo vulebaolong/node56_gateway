@@ -20,3 +20,9 @@ jobs:
 
       - name: Docker Push Image
         run: docker push vulebaolong/img-gateway:latest
+
+      - name: deploy
+        run: |
+            ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@${{ secrets.SSH_IP_SERVER }} "
+                ls -la
+            "
