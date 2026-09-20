@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const config = new DocumentBuilder()
-    .setTitle('Gateway API')
+    .setTitle('Gateway API CỦA ANH LONG')
     .setDescription('The Gateway API description')
     .setVersion('0.1')
     // .addBearerAuth() -> enable Bearer JWT authentication in Swagger UI
