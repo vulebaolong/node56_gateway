@@ -1,0 +1,44 @@
+services:
+  #docker run --name con-gateway -d -p 3070:3069 img-gateway
+  gateway:
+    container_name: con-gateway-dc
+    image: vulebaolong/img-gateway:latest
+    ports:
+      - '3070:3069'
+    env_file:
+      - .env
+
+  # email:
+
+  # order:
+
+  redis:
+    container_name: some-redis-dc
+    image: redis:latest
+    ports:
+      - '6380:6379'
+
+  elastic:
+    container_name: es01-dc
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.5.3
+    ports:
+      - '9200:9200'
+    mem_limit: 1g
+
+  rabbitmq:
+    container_name: some-rabbit-dc
+    image: rabbitmq:management
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+
+  database:
+    container_name: database_nodejs56-dc
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+    ports:
+      - '3307:3306'
