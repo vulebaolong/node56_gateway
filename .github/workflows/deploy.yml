@@ -12,17 +12,25 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7.0.1
 
-      - name: Build image
-        run: docker build -t vulebaolong/img-gateway:latest .
+      - name: ssh-agent
+        uses: webfactory/ssh-agent@v0.10.0 
+        with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Docker login
-        run: docker login -u vulebaolong -p ${{ secrets.DOCKER_PASS }}
+      - name: trust host
+        run: ssh-keyscan -H ${{ secrets.SSH_IP_SERVER }} >> ~/.ssh/know_hosts
 
-      - name: Docker Push Image
-        run: docker push vulebaolong/img-gateway:latest
+    #   - name: Build image
+    #     run: docker build -t vulebaolong/img-gateway:latest .
+
+    #   - name: Docker login
+    #     run: docker login -u vulebaolong -p ${{ secrets.DOCKER_PASS }}
+
+    #   - name: Docker Push Image
+    #     run: docker push vulebaolong/img-gateway:latest
 
       - name: deploy
         run: |
-            ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ubuntu@${{ secrets.SSH_IP_SERVER }} "
+            ssh ubuntu@${{ secrets.SSH_IP_SERVER }} "
                 ls -la
             "
