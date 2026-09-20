@@ -20,17 +20,22 @@ jobs:
       - name: trust host
         run: ssh-keyscan -H ${{ secrets.SSH_IP_SERVER }} >> ~/.ssh/known_hosts
 
-    #   - name: Build image
-    #     run: docker build -t vulebaolong/img-gateway:latest .
+      - name: Build image
+        run: docker build -t vulebaolong/img-gateway:latest .
 
-    #   - name: Docker login
-    #     run: docker login -u vulebaolong -p ${{ secrets.DOCKER_PASS }}
+      - name: Docker login
+        run: docker login -u vulebaolong -p ${{ secrets.DOCKER_PASS }}
 
-    #   - name: Docker Push Image
-    #     run: docker push vulebaolong/img-gateway:latest
+      - name: Docker Push Image
+        run: docker push vulebaolong/img-gateway:latest
 
       - name: deploy
         run: |
             ssh ubuntu@${{ secrets.SSH_IP_SERVER }} "
-                ls -la
+                set -e
+
+                cd node_56
+                docker compose pull gateway
+                docker compose up -d gateway --force-recreate
+                docker image prune -f
             "
