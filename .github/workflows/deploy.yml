@@ -1,0 +1,22 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main, develop]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Build image
+        run: docker build -t vulebaolong/img-gateway:latest .
+
+      - name: Docker login
+        run: docker login -u vulebaolong -p ${{ secrets.DOCKER_PASS }}
+
+      - name: Docker Push Image
+        run: docker push vulebaolong/img-gateway:latest
